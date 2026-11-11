@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#dff8f5"><title>Lê & Explica</title>
+<style>
+
+:root{
+ --ink:#f5f8ff;--muted:#aab9df;--line:#263b78;--paper:#0b1740;--bg:#050b25;
+ --navy:#07143d;--teal:#087df5;--mint:#dff7ff;--blue:#176bff;
+ --shadow:0 16px 38px #02061780;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 15% 0%,#143a9a 0,transparent 35rem),radial-gradient(ellipse at 90% 35%,#29116c 0,transparent 34rem),#050b25;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0;transition:transform .15s,box-shadow .15s,background .15s}
+button:active{transform:scale(.98)}
+button:focus-visible,input:focus-visible,select:focus-visible,[contenteditable]:focus-visible{outline:3px solid #78dcff;outline-offset:2px}
+.app{max-width:1120px;min-height:100vh;margin:auto;padding:22px 28px 48px}
+.top{position:relative;overflow:hidden;padding:25px 30px 27px;border-radius:28px;background:linear-gradient(120deg,#07143d 0%,#092e87 55%,#164ce2 100%);color:white;border:1px solid #2a6dff;box-shadow:0 18px 48px #00144b80}
+.top:after{content:"";position:absolute;width:310px;height:310px;border:1px solid #ffffff25;border-radius:50%;right:-80px;top:-180px;box-shadow:0 0 0 35px #ffffff0b,0 0 0 75px #ffffff08}
+.topline{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:23px;font-weight:900;letter-spacing:-.8px}.logo:before{content:"📘";margin-right:9px}.logo b{color:#ffd82f}
+.round{width:42px;height:42px;border-radius:50%;background:#ffffff20;color:#fff;font-size:18px;border:1px solid #ffffff25}
+.greet{position:relative;z-index:1;padding:34px 0 23px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.8px;color:#a8dfff;font-weight:800}
+.greet h1{font-size:clamp(28px,4vw,42px);line-height:1.08;margin:9px 0 11px;letter-spacing:-1.6px;color:#fff}
+.greet p{font-size:14px;color:#d9e7ff;margin:0;max-width:460px;line-height:1.6}
+.search{position:relative;z-index:1;display:flex;gap:10px;background:#fff;border-radius:14px;padding:13px 15px;align-items:center;max-width:560px;box-shadow:0 5px 18px #052f3025}
+.search span{color:#4168b9;font-size:20px}.search input{border:0;outline:0;width:100%;font:inherit;font-size:13px;color:#172b55}
+main{padding:22px 2px 80px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 12px}
+.section-head h2{font-size:17px;margin:0;color:#f4f7ff;letter-spacing:-.3px}.small{font-size:11px;color:#aab9df}
+.shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.shortcut{background:linear-gradient(145deg,#14285d,#0b1740);border:1px solid #2b4d9e;border-radius:17px;padding:15px 8px 13px;text-align:center;color:#eef4ff;font-size:12px;font-weight:750;box-shadow:var(--shadow)}
+.shortcut:hover,.file:hover{box-shadow:0 9px 24px #020617a8;transform:translateY(-1px);border-color:#5e9cff}
+.ico{width:42px;height:42px;margin:0 auto 8px;border-radius:13px;display:grid;place-items:center;font-size:15px;font-weight:900}
+.yellow{background:linear-gradient(145deg,#ffe36b,#ff9d00);color:#342000}.red{background:linear-gradient(145deg,#ff8d9a,#e7356c);color:white}.blue{background:linear-gradient(145deg,#63caff,#176bff);color:white}.green{background:linear-gradient(145deg,#76ff9b,#00b875);color:#003d31}
+.banner{margin-top:16px;padding:17px 19px;border-radius:18px;background:linear-gradient(105deg,#0d4fc3,#3420a4);border:1px solid #4c7dff;color:white;display:flex;align-items:center;gap:13px;box-shadow:var(--shadow)}
+.banner .bigico{font-size:26px;width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:#ffffff20}
+.banner strong{font-size:13px;display:block}.banner small{font-size:11px;color:#d3e2ff}
+.banner button{margin-left:auto;background:#fff;color:#1247ad;border-radius:11px;padding:10px 14px;font-size:12px;font-weight:800}
+.files{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.file{display:flex;align-items:center;gap:11px;background:linear-gradient(145deg,#14285d,#0b1740);border:1px solid #263f83;border-radius:14px;padding:12px;text-align:left;width:100%;color:var(--ink)}
+.fileicon{width:39px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:13px;font-weight:850;flex-shrink:0}
+.fileinfo{min-width:0;flex:1}.fileinfo strong{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fileinfo small{font-size:10px;color:#aab9df}.dots{color:#8a9cda}
+.editor{display:none;background:linear-gradient(145deg,#101f50,#091538);border:1px solid #2d4e9c;border-radius:21px;padding:20px;margin-top:22px;box-shadow:var(--shadow)}
+.editor.show{display:block}.editorhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.editorhead h2{font-size:19px;margin:0;color:#fff}.back{background:#1d326b;color:#e4eeff;border-radius:10px;padding:9px 12px;font-size:12px}
+.filename{font-size:11px;color:#aab9df;margin-bottom:9px}
+#document{min-height:260px;max-height:48vh;overflow:auto;padding:17px;border:1px solid #314c91;border-radius:14px;outline:none;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.8;color:#23365d;background:#f8fbff}
+#document:empty:before{content:"O texto do documento aparecerá aqui. Também pode escrever ou colar texto.";color:#8b9bb8}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.tool{background:#1a2d62;color:#dce8ff;padding:10px 13px;border-radius:11px;font-size:12px;font-weight:750;border:1px solid #34539c}
+.tool.primary{background:linear-gradient(110deg,#087df5,#4b35ed);color:#fff;border-color:#5998ff}
+.tool:disabled{opacity:.45;cursor:not-allowed}
+.voiceprefs{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:13px;padding:11px 12px;background:#0a1537;border-radius:12px;color:#dce8ff}
+.voiceprefs select{max-width:100%;border:1px solid #314c91;border-radius:9px;padding:8px;background:#14285d;font:inherit;font-size:11px;color:#fff}
+#voiceStatus{font-size:11px;color:#9ddfff;margin-top:9px;min-height:17px}
+.featuretabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.featuretabs button{background:#182b60;color:#dce8ff;padding:10px 13px;border-radius:10px;font-size:12px;font-weight:750}
+.featuretabs button.active{background:#087df5;color:#fff}
+.featurebox{margin-top:13px;padding:15px;background:#101f50;border:1px solid #2b478e;border-radius:15px;color:#f2f6ff}
+.featurebox label{display:block;font-size:13px;font-weight:800;margin-bottom:8px;color:#f2f6ff}
+.askrow{display:flex;gap:8px}.askrow input{min-width:0;flex:1;border:1px solid #314c91;border-radius:11px;padding:11px 12px;font:inherit;font-size:12px;background:#f8fbff;color:#172b55}
+.featureout{margin-top:13px;padding:15px;border-radius:13px;background:#eaf1ff;border:1px solid #cbdcff;color:#1b315e;font-size:13px;line-height:1.75;white-space:pre-wrap;display:none}
+.featureout strong{color:#174b47}
+.explanation{display:none;background:#102f68;border:1px solid #3974c8;color:#f2f7ff;border-radius:13px;padding:15px;margin-top:13px;font-size:13px;line-height:1.7}
+.explanation h3{font-size:14px;margin:0 0 7px;color:#a9dcff}
+.float{position:fixed;bottom:24px;right:max(22px,calc((100vw - 1120px)/2 + 28px));width:62px;height:62px;border-radius:50%;background:linear-gradient(145deg,#19b9ff,#0759ed);color:#fff;font-size:34px;box-shadow:0 9px 28px #006bff80;z-index:5;border:2px solid #8bdfff}
+#fileInput{display:none}.hint{text-align:center;color:#91a6d7;font-size:11px;margin:18px 4px;line-height:1.6}
+@media(max-width:600px){.app{padding:12px 12px 34px}.top{padding:20px 19px 22px;border-radius:22px}.greet{padding:28px 0 20px}.greet h1{font-size:30px}.shortcuts{gap:8px}.shortcut{padding:12px 3px 10px;font-size:11px}.ico{width:37px;height:37px}.banner{padding:13px;gap:9px}.banner button{padding:9px 10px;font-size:11px}.editor{padding:14px;border-radius:17px}.editorhead h2{font-size:16px}.tools{gap:7px}.tool{padding:10px 11px;font-size:11px}.files{grid-template-columns:1fr}.float{right:18px;bottom:18px}}
+@media(min-width:800px){.greet{padding:42px 0 28px}.shortcuts{grid-template-columns:repeat(4,160px)}.editor{padding:24px}#document{min-height:340px}}
+
+</style></head>
+<body><div class="app">
+<header class="top">
+ <div class="topline"><div class="logo">Lê <b>&</b> Explica</div><button class="round" id="helpBtn" aria-label="Ajuda">?</button></div>
+ <div class="greet"><div class="eyebrow">O teu assistente inteligente</div><h1>Lê, edita e aprende<br>com Inteligência Artificial!</h1><p>Abre os teus documentos, ouve os textos e compreende cada ideia com ajuda da IA.</p></div>
+ <label class="search"><span>⌕</span><input id="searchInput" placeholder="Pesquisar nos teus documentos..."></label>
+</header>
+<main>
+ <div class="section-head"><h2>O que queres fazer?</h2><span class="small">Acesso rápido</span></div>
+ <div class="shortcuts">
+  <button class="shortcut" data-kind="docx"><span class="ico blue">W</span>Word</button>
+  <button class="shortcut" data-kind="pdf"><span class="ico red">PDF</span>PDF</button>
+  <button class="shortcut" data-kind="txt"><span class="ico yellow">▤</span>Texto</button>
+  <button class="shortcut" data-kind="all"><span class="ico green">▣</span>Todos</button>
+ </div>
+ <div class="banner"><div class="bigico">🔊</div><div><strong>Ouve enquanto aprendes</strong><small>Leitura e explicação em voz alta</small></div><button id="voiceDemo">Experimentar</button></div>
+ <div class="section-head"><h2>Documentos recentes</h2><span class="small" id="recentCount">0 ficheiros</span></div>
+ <div class="files" id="recentList"><div class="small" style="padding:8px 3px">Os documentos que abrires aparecerão aqui.</div></div>
+ <section class="editor" id="editor">
+  <div class="editorhead"><h2>Editar documento</h2><button class="back" id="closeEditor">Fechar ✕</button></div>
+  <div class="filename" id="fileName">Novo texto</div>
+  <div id="document" contenteditable="true" spellcheck="true" aria-label="Editor de documento"></div>
+  <div class="tools">
+   <button class="tool primary" id="explainBtn">✦ Explicar texto</button>
+   <button class="tool" id="readBtn">▶ Ler texto</button>
+   <button class="tool" id="readExplanationBtn" disabled>🔊 Ouvir resultado</button>
+   <button class="tool" id="pauseBtn">Ⅱ Pausar / continuar</button>
+   <button class="tool" id="stopBtn">■ Parar voz</button>
+   <button class="tool" id="saveTxtBtn">Guardar .txt</button>
+  </div>
+  <div class="voiceprefs"><label for="voiceSelect" style="margin:0;font-size:11px">Voz:</label><select id="voiceSelect"><option value="">Voz predefinida do telemóvel</option></select><label for="rateSelect" style="margin:0;font-size:11px">Velocidade:</label><select id="rateSelect"><option value=".8">Lenta</option><option value=".95" selected>Normal</option><option value="1.12">Rápida</option></select></div>
+  <div id="voiceStatus" role="status" aria-live="polite">A preparar a leitura em voz alta…</div>
+  <div class="featuretabs">
+   <button class="active" data-feature="paragraphs">Por parágrafo</button><button data-feature="summary">Resumo</button><button data-feature="glossary">Palavras difíceis</button>
+  </div>
+  <div class="featurebox" style="background:#f0faf8;border-color:#cfe9e4">
+   <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><label style="margin:0">✦ Professor virtual com IA</label><span id="aiStatus" class="small">A verificar ligação…</span></div>
+   <p style="font-size:11px;color:#718b87;margin:7px 0 10px">Faz perguntas, pede exemplos e conversa sobre o documento.</p>
+   <div id="chatLog" style="max-height:230px;overflow:auto;display:grid;gap:8px;margin-bottom:9px"></div>
+   <div class="askrow"><input id="chatInput" placeholder="Conversa com o professor…"><button class="tool primary" id="chatSend">Enviar</button></div>
+  </div>
+  <div class="featurebox">
+   <label for="questionInput">Pergunta rápida sobre o documento</label>
+   <div class="askrow"><input id="questionInput" placeholder="Ex.: Qual é a ideia principal?"><button class="tool primary" id="askBtn">Perguntar</button></div>
+  </div>
+  <div class="featureout" id="featureOutput"></div>
+  <div class="explanation" id="explanation"><h3>Explicação do conteúdo</h3><div id="explanationText"></div></div>
+ </section>
+ <p class="hint">Os teus ficheiros permanecem no teu dispositivo. A análise por IA requer ligação à Internet e a configuração segura do servidor. A voz depende das vozes instaladas no telemóvel.</p>
+</main>
+<input id="fileInput" type="file" accept=".txt,.md,.csv,.docx,.pdf,text/plain,text/markdown,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+<button class="float" id="addBtn" aria-label="Adicionar ficheiro" title="Adicionar ficheiro">+</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const $=id=>document.getElementById(id),input=$('fileInput'),doc=$('document'),editor=$('editor');
+let currentName='texto',explanationPlain='',recent=[];
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+function openPicker(kind){input.dataset.kind=kind||'all';if(kind==='docx')input.accept='.docx';else if(kind==='pdf')input.accept='.pdf';else if(kind==='txt')input.accept='.txt,.md,.csv';else input.accept='.txt,.md,.csv,.docx,.pdf';input.click();}
+$('addBtn').onclick=()=>openPicker('all');
+document.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>openPicker(b.dataset.kind));
+$('voiceDemo').onclick=()=>{showEditor();speak('Olá! Bem-vindo ao Lê e Explica. A leitura em voz alta está pronta. Abre um documento e toca em Ler texto para o ouvir.');};
+function showEditor(){editor.classList.add('show');editor.scrollIntoView({behavior:'smooth',block:'start'});}
+function remember(name,text){recent=[{name,text,date:'Aberto agora'},...recent.filter(x=>x.name!==name)].slice(0,6);renderRecent();}
+function renderRecent(){ $('recentCount').textContent=recent.length+' ficheiros';const list=$('recentList');list.innerHTML='';if(!recent.length){list.innerHTML='<div class="small" style="padding:8px 3px">Os documentos que abrires aparecerão aqui.</div>';return;}recent.forEach(x=>{const b=document.createElement('button');b.className='file';const ext=x.name.split('.').pop().toLowerCase();const ico=ext==='docx'?'W':ext==='pdf'?'PDF':'▤';b.innerHTML='<span class="fileicon '+(ext==='pdf'?'red':ext==='docx'?'blue':'yellow')+'">'+ico+'</span><span class="fileinfo"><strong></strong><small>Aberto recentemente</small></span><span class="dots">•••</span>';b.querySelector('strong').textContent=x.name;b.onclick=()=>{currentName=x.name;$('fileName').textContent=x.name;doc.innerText=x.text||'';showEditor();};list.append(b);});}
+input.onchange=async()=>{const f=input.files[0];if(!f)return;currentName=f.name;$('fileName').textContent=f.name;doc.innerText='A abrir documento…';showEditor();$('explanation').style.display='none';try{
+ if(f.name.toLowerCase().endsWith('.docx')){if(!window.mammoth)throw Error('Leitor Word indisponível. Verifica a ligação à Internet.');const r=await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()});doc.innerText=r.value;}
+ else if(f.name.toLowerCase().endsWith('.pdf')){if(!window.pdfjsLib)throw Error('Leitor PDF indisponível. Verifica a ligação à Internet.');const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let pages=[];for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i),content=await page.getTextContent();pages.push(content.items.map(t=>t.str).join(' '));}doc.innerText=pages.join('\\n\\n');}
+ else doc.innerText=await f.text();
+ remember(f.name,doc.innerText);if(!doc.innerText.trim())doc.innerText='Não foi possível extrair texto deste ficheiro.';
+ }catch(e){doc.innerText='';alert('Não foi possível abrir: '+e.message);}input.value='';};
+let lastSpoken='',speechParts=[],speechIndex=0,speechRun=0;
+const speechOK=('speechSynthesis' in window)&&('SpeechSynthesisUtterance' in window);
+function voiceStatus(message){const el=$('voiceStatus');if(el)el.textContent=message;}
+function loadVoices(){if(!speechOK)return;const select=$('voiceSelect');if(!select)return;const chosen=select.value;const all=speechSynthesis.getVoices();const voices=all.filter(v=>/^pt([_-]|$)/i.test(v.lang));select.innerHTML='<option value="">Voz portuguesa automática</option>';voices.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name+' ('+v.lang+')';select.append(o);});if(chosen)select.value=chosen;voiceStatus(voices.length?'Voz pronta. '+voices.length+' voz(es) em português disponível(is).':'Voz do Android pronta; será usada a voz predefinida se não houver uma voz portuguesa listada.');}
+if(speechOK){loadVoices();speechSynthesis.addEventListener?.('voiceschanged',loadVoices);setTimeout(loadVoices,700);}else{voiceStatus('Este navegador não disponibiliza leitura em voz alta. Experimenta abrir no Chrome actualizado.');}
+function splitForSpeech(value,max=180){const clean=String(value||'').replace(/\s+/g,' ').trim();if(!clean)return[];const words=clean.split(' '),parts=[];let part='';for(const word of words){if((part+' '+word).trim().length>max&&part){parts.push(part);part=word;}else part=(part+' '+word).trim();}if(part)parts.push(part);return parts;}
+function speakNext(run){if(run!==speechRun||speechIndex>=speechParts.length){if(run===speechRun)voiceStatus('Leitura concluída.');return;}const u=new SpeechSynthesisUtterance(speechParts[speechIndex]);const selected=$('voiceSelect').value;const all=speechSynthesis.getVoices();const voice=all.find(v=>v.name===selected)||all.find(v=>/^pt-PT$/i.test(v.lang))||all.find(v=>/^pt/i.test(v.lang));u.lang=voice?.lang||'pt-PT';if(voice)u.voice=voice;u.rate=parseFloat($('rateSelect').value||'.95');u.pitch=1;u.onstart=()=>voiceStatus('A ler… parte '+(speechIndex+1)+' de '+speechParts.length+'.');u.onend=()=>{if(run!==speechRun)return;speechIndex++;speakNext(run);};u.onerror=(event)=>{if(run!==speechRun)return;voiceStatus('A leitura foi interrompida ('+(event.error||'erro de voz')+'). Toca novamente em Ler texto.');};speechSynthesis.speak(u);}
+function speak(value){if(!speechOK){voiceStatus('O Chrome deste dispositivo não suporta leitura em voz alta.');return;}const text=String(value||'').trim();if(!text){voiceStatus('Não há texto para ler. Abre ou escreve um documento primeiro.');return;}speechRun++;const run=speechRun;speechSynthesis.cancel();speechSynthesis.resume();lastSpoken=text;speechParts=splitForSpeech(text);speechIndex=0;voiceStatus('A iniciar a leitura…');speakNext(run);}
+$('readBtn').onclick=()=>speak(doc.innerText.trim());
+$('pauseBtn').onclick=()=>{if(!speechOK)return;if(speechSynthesis.speaking){if(speechSynthesis.paused){speechSynthesis.resume();voiceStatus('Leitura retomada.');}else{speechSynthesis.pause();voiceStatus('Leitura em pausa.');}}else if(lastSpoken){speak(lastSpoken);}};
+$('stopBtn').onclick=()=>{if(speechOK){speechRun++;speechSynthesis.cancel();voiceStatus('Leitura parada.');}};
+
+let chatHistory=[];
+async function callTutor(action,question=''){
+ const text=doc.innerText.trim();
+ if(!text)throw new Error('Abre ou escreve primeiro um documento.');
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),60000);
+ try{
+  const response=await fetch('/api/tutor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,question,document:text,history:chatHistory.slice(-10)}),signal:controller.signal});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||('Erro do servidor ('+response.status+').'));
+  if(!data.answer||!String(data.answer).trim())throw new Error('A IA respondeu sem texto. Tenta novamente.');
+  return String(data.answer).trim();
+ }catch(err){
+  if(err.name==='AbortError')throw new Error('A IA demorou demasiado tempo. Verifica a Internet e tenta novamente.');
+  if(err instanceof TypeError)throw new Error('Não foi possível chegar ao servidor. Confirma que publicaste e iniciaste o servidor, não apenas o ficheiro HTML.');
+  throw err;
+ }finally{clearTimeout(timer);}
+}
+async function useAI(action,question=''){
+ showOutput('🤖 A IA está a ler o documento e a preparar uma resposta…');
+ try{const answer=await callTutor(action,question);showOutput(answer);}
+ catch(err){showOutput('⚠️ Não foi possível obter resposta da IA.\n\n'+err.message+'\n\nConfirma se o servidor está online e se a chave API está configurada no servidor.');}
+}
+async function checkAI(){try{const r=await fetch('/api/health');if(!r.ok)throw new Error('Servidor indisponível');const d=await r.json();$('aiStatus').textContent=d.configured?'IA ligada ✓':'Falta configurar a chave';$('aiStatus').style.color=d.configured?'#42e6a4':'#ffd36a';}catch{$('aiStatus').textContent='Servidor offline';$('aiStatus').style.color='#ff9b9b';}}
+checkAI();
+function addChatMessage(role,text){const el=document.createElement('div');el.style.cssText='padding:9px 11px;border-radius:11px;font-size:12px;line-height:1.55;white-space:pre-wrap;'+(role==='user'?'background:#e5f0ff;margin-left:18px':'background:#fff;border:1px solid #e2eeeb;margin-right:18px');el.textContent=(role==='user'?'Tu: ':'Professor: ')+text;$('chatLog').append(el);$('chatLog').scrollTop=$('chatLog').scrollHeight;}
+async function sendChat(){const q=$('chatInput').value.trim();if(!q)return;if(!doc.innerText.trim()){alert('Abre primeiro um documento para conversar sobre ele.');return;}$('chatInput').value='';addChatMessage('user',q);$('chatSend').disabled=true;try{const a=await callTutor('chat',q);chatHistory.push({role:'user',content:q},{role:'assistant',content:a});addChatMessage('assistant',a);lastSpoken=a;$('readExplanationBtn').disabled=false;}catch(e){addChatMessage('assistant','Não consegui responder: '+e.message);}finally{$('chatSend').disabled=false;}}
+$('chatSend').onclick=sendChat;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+function showOutput(text){$('featureOutput').textContent=text;$('featureOutput').style.display='block';lastSpoken=text;$('readExplanationBtn').disabled=false;}
+function splitParagraphs(){return doc.innerText.split(/\n+/).map(s=>s.trim()).filter(Boolean);}
+function explainParagraphs(){const paras=splitParagraphs();if(!paras.length)return 'Não há texto para analisar.';return paras.map((p,i)=>'PARÁGRAFO '+(i+1)+'\n'+p+'\n\nEm linguagem simples: '+(p.length>450?p.slice(0,450)+'…':p)+'\nIdeia central: '+(p.match(/[^.!?]+[.!?]?/)||[p])[0].trim()).join('\n\n────────────────\n\n');}
+function summarize(){const text=doc.innerText.trim(),sents=text.replace(/\s+/g,' ').match(/[^.!?]+[.!?]?/g)||[];if(!sents.length)return 'Não há texto para resumir.';if(sents.length<5)return 'Resumo:\n'+sents.join(' ').slice(0,1200);const freq={};(text.toLowerCase().match(/[a-záàâãéêíóôõúç]{4,}/gi)||[]).forEach(w=>freq[w]=(freq[w]||0)+1);const scored=sents.map((s,i)=>({s,i,score:(s.toLowerCase().match(/[a-záàâãéêíóôõúç]{4,}/gi)||[]).reduce((n,w)=>n+(freq[w]||0),0)/(1+i*.015)}));const picked=scored.sort((a,b)=>b.score-a.score).slice(0,Math.min(5,Math.ceil(sents.length/4))).sort((a,b)=>a.i-b.i);return 'RESUMO DO DOCUMENTO\n'+picked.map(x=>'• '+x.s.trim()).join('\n')+'\n\nEste resumo selecciona frases relevantes do documento. Revê o original para confirmar todos os detalhes.';}
+const dictionary={'análise':'exame cuidadoso de um assunto para o compreender','argumento':'razão ou conjunto de razões usadas para defender uma ideia','conceito':'ideia ou noção sobre alguma coisa','contexto':'circunstâncias que ajudam a compreender uma mensagem','consequência':'resultado ou efeito de uma acção','democracia':'sistema em que os cidadãos participam na escolha dos governantes','economia':'forma como recursos, bens e serviços são produzidos e utilizados','hipótese':'explicação possível que ainda precisa de ser verificada','inovação':'introdução de uma ideia, método ou solução nova','interpretação':'explicação do sentido de algo','objectivo':'resultado que se pretende alcançar','perspectiva':'ponto de vista sobre um assunto','processo':'conjunto de etapas para realizar algo','sustentabilidade':'utilização responsável dos recursos para não comprometer o futuro','teoria':'explicação organizada de um fenómeno'};
+function glossary(){const text=doc.innerText,found=Object.keys(dictionary).filter(w=>new RegExp('\\b'+w+'\\b','i').test(text));if(!found.length)return 'Não encontrei termos do pequeno glossário integrado. Selecciona uma palavra no documento ou consulta um dicionário para definições mais específicas.';return 'PALAVRAS E EXPLICAÇÕES\n'+found.map(w=>'• '+w+': '+dictionary[w]+'.').join('\n');}
+function answerQuestion(q){const paras=splitParagraphs();if(!q.trim())return 'Escreve uma pergunta sobre o documento.';const terms=q.toLowerCase().match(/[a-záàâãéêíóôõúç]{4,}/gi)||[];const ranked=paras.map(p=>({p,score:terms.reduce((n,w)=>n+(p.toLowerCase().includes(w)?1:0),0)})).filter(x=>x.score).sort((a,b)=>b.score-a.score).slice(0,3);if(!ranked.length)return 'Não encontrei uma passagem que responda claramente à pergunta. Tenta usar palavras que apareçam no documento ou consulta a secção de resumo.';return 'PASSAGENS RELACIONADAS COM A TUA PERGUNTA\n'+ranked.map(x=>'• '+x.p).join('\n\n')+'\n\nCom base nestas passagens, compara a informação com a pergunta. Esta versão não inventa respostas que não estejam no texto.';}
+let currentFeature='paragraphs';
+function runFeature(which){if(!doc.innerText.trim()){alert('Abre ou escreve primeiro um texto.');return;}currentFeature=which;document.querySelectorAll('[data-feature]').forEach(b=>b.classList.toggle('active',b.dataset.feature===which));useAI(which);}
+document.querySelectorAll('[data-feature]').forEach(b=>b.onclick=()=>runFeature(b.dataset.feature));
+$('explainBtn').onclick=()=>{if(!doc.innerText.trim()){alert('Abre ou escreve primeiro um texto.');return;}useAI('explain');$('explanation').style.display='block';$('explanationText').textContent='A preparar uma explicação completa com o Professor Virtual…';};
+$('askBtn').onclick=()=>{if(!doc.innerText.trim()){alert('Abre ou escreve primeiro um texto.');return;}useAI('question',$('questionInput').value);};
+$('questionInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('askBtn').click();});
+$('readExplanationBtn').onclick=()=>speak(lastSpoken||explanationPlain||$('featureOutput').textContent);
+$('saveTxtBtn').onclick=()=>{const blob=new Blob([doc.innerText],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=(currentName.replace(/\\.[^.]+$/,'')||'documento')+'-editado.txt';a.click();URL.revokeObjectURL(url);};
+$('closeEditor').onclick=()=>{editor.classList.remove('show');if(speechOK){speechRun++;speechSynthesis.cancel();}};
+$('searchInput').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('.file').forEach(f=>f.style.display=f.innerText.toLowerCase().includes(q)?'flex':'none');};
+$('helpBtn').onclick=()=>alert('Toca no + para escolher um documento. Word (.docx), PDF e TXT podem ser abertos. No editor, podes alterar o texto, resumir, ver explicações por parágrafo, procurar palavras difíceis, fazer perguntas sobre o conteúdo e ouvir os resultados. O Professor Virtual requer que o servidor esteja configurado com uma chave de API; nunca coloques a chave dentro deste ficheiro HTML. A leitura por voz depende das vozes disponíveis no teu telemóvel.');
+</script></body></html>
